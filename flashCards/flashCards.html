@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spaced Practice</title>
+<link rel="stylesheet" href="css/flip-card.css">
+<style>
+  #retireBtn {
+    position: absolute;
+    bottom: 0.25em;
+    right: 0.25em;
+    font-size: 1.5em;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+  }
+  #resetBtn { z-index: 2; }
+  .answer-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding: 1em;
+    box-sizing: border-box;
+  }
+</style>
+
+</head>
+<body>
+    <p id="pageTitle"></p>
+    <div class="card-wrapper">
+        <div class="card" id="card">
+            <div class="card-inner" id="cardInner">
+            <div class="card-front" id="cardFront">Loading...</div>
+            <div class="card-back" id="cardBack">
+                <!--<button id="retireBtn" style="display: none;">✅</button>-->
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="retireBtn" style="display: none;">✅</button>
+        <!--<button id="resetBtn" style="display: none;">🔁 Reset Deck</button>-->
+        <button id="resetBtn" style="display: inline-block;">🔁 Reset Deck</button>
+    </div>
+
+
+
+<script>
+
+  const params = new URLSearchParams(window.location.search);
+  const dataFile = params.get('data') || 'none';
+  //const dataFile = params.get('data') || 'collins01';
+  const tag = params.get('tag') || 'none';
+
+  const script = document.createElement('script');
+  script.src = `decks/${dataFile}.js`;
+
+  //const pageTitleH1 = document.getElementById("pageTitle");
+  //pageTitleH1.innerText = pageTitleH1.innerText + ' ' + dataFile;
+
+  script.onload = () => {
+    if (!window.flashcardData) {
+      document.getElementById('card').innerText = `No data found in ${dataFile}.js`;
+      return;
+    }
+
+    document.getElementById("pageTitle").textContent = window.topicHeading || "Flashcards";
+
+    const flashcards = window.flashcardData;
+    let filteredCards;
+
+    if (tag !== 'none') {
+      filteredCards = flashcards.filter(card => card.tags.includes(tag));
+    }
+    else { 
+      filteredCards = flashcards; 
+    }
+
+    let currentIndex = null;
+    let usedIndices = new Set();
+    const frontEl = document.getElementById("cardFront");
+    const backEl = document.getElementById("cardBack");
+    const cardWrapper = document.getElementById("card");
+
+    function nextCard() {
+        cardWrapper.classList.remove("flipped");
+        const retireBtn = document.getElementById('retireBtn');
+        if (retireBtn) retireBtn.style.display = 'none';
+        document.getElementById('resetBtn').style.display = 'none';
+
+        if (usedIndices.size === filteredCards.length) {
+            frontEl.innerText = "🎉 You've completed all cards!";
+            backEl.innerText = "Click 'Reset Deck' to start over.";
+            if (retireBtn) retireBtn.style.display = 'none';
+            document.getElementById('resetBtn').style.display = 'inline-block';
+            return;
+        }
+
+        const unused = filteredCards
+            .map((_, i) => i)
+            .filter(i => !usedIndices.has(i));
+
+        currentIndex = unused[Math.floor(Math.random() * unused.length)];
+        frontEl.innerText = filteredCards[currentIndex].question;
+        backEl.innerHTML = `
+            <button id="retireBtn">
+            ✅
+            </button>
+            <div class="answer-text">${filteredCards[currentIndex].answer}</div>
+        `;
+        document.getElementById('retireBtn').onclick = retireCard;
+    }
+
+    function retireCard() {
+        usedIndices.add(currentIndex);
+        setTimeout(() => {
+            nextCard(); // delay to allow flip animation to visually reset
+        }, 300); 
+    }
+
+    // Flip on click
+    document.getElementById("card").addEventListener("click", () => {
+    if (!cardWrapper.classList.contains("flipped")) {
+        cardWrapper.classList.add("flipped");
+        document.getElementById('retireBtn').style.display = 'inline-block';
+        }
+    });
+
+    document.getElementById("cardBack").addEventListener("click", () => {    
+        cardWrapper.classList.remove("flipped");
+        setTimeout(() => {
+            nextCard(); // delay to allow flip animation to visually reset
+        }, 300); // less than your CSS transition (600ms)
+    });
+
+
+    document.getElementById('resetBtn').onclick = () => {
+        usedIndices.clear();
+        document.getElementById('resetBtn').style.display = 'none';
+        nextCard();
+    };
+
+    nextCard();
+
+  };
+
+  script.onerror = () => {
+    document.getElementById('card').innerText = `Could not load ${dataFile}.js`;
+  };
+
+  document.head.appendChild(script);
+</script>
+
+</body>
+</html>

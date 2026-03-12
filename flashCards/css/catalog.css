@@ -1,0 +1,265 @@
+/* catalog.css — shared styles for catalog/search apps */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 2em 1em;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  margin-bottom: 0.5em;
+  font-size: 2.5em;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.9);
+  text-align: center;
+  margin-bottom: 2em;
+  font-size: 1.1em;
+}
+
+/* Search Bar */
+.search-section {
+  margin-bottom: 1.5em;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 1em 1.5em;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  outline: none;
+  transition: box-shadow 0.3s;
+}
+
+#searchInput:focus {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* Tag Filters */
+.tag-section {
+  background: white;
+  padding: 1.5em;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  margin-bottom: 1.5em;
+}
+
+.tag-section h2 {
+  margin: 0 0 1em 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.tag-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.tag-btn {
+  padding: 0.6em 1.2em;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.tag-btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.tag-btn.active {
+  background: #667eea;
+  color: white;
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
+}
+
+/* Questions Section */
+.questions-section {
+  background: white;
+  padding: 1.5em;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.questions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.questions-header h2 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.question-count {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+/* Question Cards */
+.question-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 0.75em;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.question-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.question-header {
+  padding: 1em 1.25em;
+  cursor: pointer;
+  background: #fafafa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.question-header:hover {
+  background: #f0f0f0;
+}
+
+.question-card.expanded .question-header {
+  background: #667eea;
+  color: white;
+}
+
+.question-text {
+  flex: 1;
+  font-weight: 500;
+  font-size: 1.05em;
+  padding-right: 1em;
+}
+
+.expand-icon {
+  font-size: 1.2em;
+  transition: transform 0.3s;
+  color: #667eea;
+}
+
+.question-card.expanded .expand-icon {
+  transform: rotate(180deg);
+  color: white;
+}
+
+.answer-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+}
+
+.answer-content {
+  padding: 1.5em 1.25em;
+  background: #f9f9f9;
+  border-top: 2px solid #e0e0e0;
+  position: relative;
+}
+
+.answer-text {
+  color: #2d572c;
+  font-size: 1.05em;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 2em;
+}
+
+.source-badge {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.75em;
+  background: #667eea;
+  color: white;
+  padding: 0.3em 0.8em;
+  border-radius: 15px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+/* Loading and Empty States */
+.loading {
+  text-align: center;
+  padding: 3em;
+  color: #666;
+  font-size: 1.2em;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3em;
+  color: #666;
+}
+
+.empty-state-icon {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+
+.empty-state-text {
+  font-size: 1.2em;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  body {
+    padding: 1em 0.5em;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  .tag-section, .questions-section {
+    padding: 1em;
+  }
+
+  .question-header {
+    padding: 0.75em 1em;
+  }
+
+  .answer-content {
+    padding: 1em;
+  }
+
+  .question-text {
+    font-size: 0.95em;
+  }
+
+  .answer-text {
+    font-size: 0.95em;
+  }
+}

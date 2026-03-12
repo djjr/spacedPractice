@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcards</title>
+  <link rel="stylesheet" href="css/catalog.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Flashcards</h1>
+  <p class="subtitle">Search, filter by topic, and review all flashcards</p>
+
+  <div class="search-section">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search questions and answers..."
+      autocomplete="off"
+    >
+  </div>
+
+  <div class="tag-section">
+    <h2>Filter by Topic</h2>
+    <div class="tag-buttons" id="tagButtons">
+      <button class="tag-btn active" data-tag="all">All</button>
+    </div>
+  </div>
+
+  <div class="questions-section">
+    <div class="questions-header">
+      <h2>Questions</h2>
+      <span class="question-count" id="questionCount">0 questions</span>
+    </div>
+    <div id="questionsList">
+      <div class="loading">Loading flashcards...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+window.catalogDataFiles = [
+  'collins01', 'collins02', 'ethics101', 'whyBureaucracy',
+  'ML101', 'Alignment_Problem', 'amodeietal01', 'amodeietal02',
+  'analogy', 'deterrence', 'christianAlignmentProblem01',
+  'jobinetal2019', 'ml4h_p1', 'ml4h_p21', 'modelCards',
+  'sillyRules', 'socialOrderVocabulary', 'virtueEthics',
+  'offSwitch', 'controlOversight', 'governance', 'ethicsShort'
+];
+</script>
+<script src="js/catalog-engine.js"></script>
+
+</body>
+</html>
